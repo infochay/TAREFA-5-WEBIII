@@ -37,3 +37,9 @@ class TarefaSearchView(ListView):
         if query:
             return Tarefa.objects.filter(titulo__icontains=query)
         return Tarefa.objects.all()
+
+
+from django.shortcuts import render
+
+def formulario_dom(request):
+    return render(request, "tarefas/form_dom.html")

@@ -1,0 +1,6 @@
+<h2>Tem certeza que deseja excluir "{{ object.titulo }}"?</h2>
+<form method="post">
+  {% csrf_token %}
+  <button type="submit">Sim, excluir</button>
+  <a href="{% url 'tarefa-lista' %}">Cancelar</a>
+</form>

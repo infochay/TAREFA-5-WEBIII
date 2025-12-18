@@ -1,19 +1,39 @@
-from django.http import HttpResponse
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView
+from django.urls import reverse_lazy
+from .models import Tarefa
 
-def listar_tarefas(request):
-    return HttpResponse("Aqui vão aparecer as tarefas")
+# Listar tarefas
+class TarefaListView(ListView):
+    model = Tarefa
+    template_name = "tarefas/tarefa_lista.html"
 
-def criar_tarefa(request):
-    return HttpResponse("Criar tarefa")
+# Criar tarefa
+class TarefaCreateView(CreateView):
+    model = Tarefa
+    template_name = "tarefas/tarefa_form.html"
+    fields = ['titulo', 'descricao', 'concluida']
+    success_url = reverse_lazy('tarefa-lista')
 
-def editar_tarefa(request, id):
-    return HttpResponse(f"Editar tarefa {id}")
+# Editar tarefa
+class TarefaUpdateView(UpdateView):
+    model = Tarefa
+    template_name = "tarefas/tarefa_form.html"
+    fields = ['titulo', 'descricao', 'concluida']
+    success_url = reverse_lazy('tarefa-lista')
 
-def apagar_tarefa(request, id):
-    return HttpResponse(f"Apagar tarefa {id}")
+# Apagar tarefa
+class TarefaDeleteView(DeleteView):
+    model = Tarefa
+    template_name = "tarefas/tarefa_confirm_delete.html"
+    success_url = reverse_lazy('tarefa-lista')
 
-def buscar_tarefas(request):
-    return HttpResponse("Buscar tarefas")
+# Buscar tarefas
+class TarefaSearchView(ListView):
+    model = Tarefa
+    template_name = "tarefas/tarefa_buscar.html"
 
-
-# Create your views here.
+    def get_queryset(self):
+        query = self.request.GET.get('q')
+        if query:
+            return Tarefa.objects.filter(titulo__icontains=query)
+        return Tarefa.objects.all()

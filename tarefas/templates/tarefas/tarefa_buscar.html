@@ -1,0 +1,11 @@
+<form method="get">
+  <input type="text" name="q" placeholder="Pesquisar...">
+  <button type="submit">Buscar</button>
+</form>
+
+<ul>
+  {% for tarefa in object_list %}
+    <li>{{ tarefa.titulo }} - {{ tarefa.concluida|yesno:"Concluída,Pendente" }}</li>
+  {% endfor %}
+</ul>
+<a href="{% url 'tarefa-lista' %}">Voltar à lista</a>

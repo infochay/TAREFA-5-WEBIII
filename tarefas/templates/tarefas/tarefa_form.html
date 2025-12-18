@@ -1,0 +1,7 @@
+<h2>{% if object %}Editar Tarefa{% else %}Nova Tarefa{% endif %}</h2>
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Salvar</button>
+</form>
+<a href="{% url 'tarefa-lista' %}">Voltar à lista</a>

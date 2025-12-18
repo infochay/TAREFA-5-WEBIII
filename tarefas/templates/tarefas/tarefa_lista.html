@@ -1,0 +1,12 @@
+<h2>Lista de Tarefas</h2>
+<ul>
+  {% for tarefa in object_list %}
+    <li>
+      {{ tarefa.titulo }} - {{ tarefa.concluida|yesno:"Concluída,Pendente" }}
+      <a href="{% url 'tarefa-editar' tarefa.id %}">Editar</a>
+      <a href="{% url 'tarefa-excluir' tarefa.id %}">Excluir</a>
+    </li>
+  {% endfor %}
+</ul>
+<a href="{% url 'tarefa-nova' %}">Nova Tarefa</a>
+<a href="{% url 'tarefa-buscar' %}">Buscar Tarefas</a>

@@ -1,0 +1,39 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Busca AJAX</title>
+</head>
+<body>
+  <h2>Buscar tarefas (AJAX)</h2>
+
+  <input type="text" id="termo" placeholder="Digite o título">
+  <button onclick="buscarTarefas()">Buscar</button>
+
+  <ul id="resultado"></ul>
+
+  <script>
+    function buscarTarefas() {
+      const termo = document.getElementById("termo").value;
+
+      fetch(`/buscar-ajax/?q=${termo}`)
+        .then(response => response.json())
+        .then(data => {
+          const lista = document.getElementById("resultado");
+          lista.innerHTML = "";
+
+          if (data.length === 0) {
+            lista.innerHTML = "<li>Nenhuma tarefa encontrada</li>";
+          }
+
+          data.forEach(tarefa => {
+            const li = document.createElement("li");
+            li.textContent = tarefa.titulo;
+            lista.appendChild(li);
+          });
+        });
+    }
+  </script>
+</body>
+</html>

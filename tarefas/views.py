@@ -1,5 +1,7 @@
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
+from django.shortcuts import render
+from django.http import JsonResponse
 from .models import Tarefa
 
 # Listar tarefas
@@ -27,7 +29,7 @@ class TarefaDeleteView(DeleteView):
     template_name = "tarefas/tarefa_confirm_delete.html"
     success_url = reverse_lazy('tarefa-lista')
 
-# Buscar tarefas
+# Buscar tarefas (form tradicional)
 class TarefaSearchView(ListView):
     model = Tarefa
     template_name = "tarefas/tarefa_buscar.html"
@@ -38,8 +40,27 @@ class TarefaSearchView(ListView):
             return Tarefa.objects.filter(titulo__icontains=query)
         return Tarefa.objects.all()
 
-
-from django.shortcuts import render
-
+# =========================
+# FORMULÁRIO DOM (JS)
+# =========================
 def formulario_dom(request):
     return render(request, "tarefas/form_dom.html")
+
+# =========================
+# PÁGINA AJAX
+# =========================
+def busca_ajax_view(request):
+    return render(request, "tarefas/busca_ajax.html")
+
+# =========================
+# AJAX - BUSCA ASSÍNCRONA
+# =========================
+def buscar_tarefas_ajax(request):
+    termo = request.GET.get("q", "")
+    tarefas = Tarefa.objects.filter(titulo__icontains=termo)
+
+    dados = [
+        {"id": t.id, "titulo": t.titulo}
+        for t in tarefas
+    ]
+    return JsonResponse(dados, safe=False)

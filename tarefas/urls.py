@@ -17,4 +17,7 @@ urlpatterns = [
     path('buscar/', TarefaSearchView.as_view(), name='tarefa-buscar'),
 
     path('dom/', views.formulario_dom, name='formulario-dom'),
+
+    path('buscar-ajax/', views.buscar_tarefas_ajax, name='buscar-ajax'),
+    path('ajax/', views.busca_ajax_view, name='ajax-view'),
 ]
